@@ -1,1 +1,9 @@
 A HTTP Proxy to filter keywords that might insult your intelligence :)
+
+To test:
+  Compile
+  Run
+  In a new terminal: telnet localhost 1337
+  All message sent from telnet will be printet from Obi-Wan and telnet will print "I got you message".
+  Close telnet with Ctrl + Alt-Gr + 8 (Ctrl + ]) and "close" or "quit".
+  Obi-Wan will exit..
