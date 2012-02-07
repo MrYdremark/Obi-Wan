@@ -1,1 +1,29 @@
-Welcome to the Obi-Wan project!
+ _   _      _     _   _ _                      ___  __ 
+| \ | |    | |   | \ | (_)                    / _ \/_ |
+|  \| | ___| |_  |  \| |_ _ __  _ __  _   _  | | | || |
+| . ` |/ _ \ __| | . ` | | '_ \| '_ \| | | | | | | || |
+| |\  |  __/ |_  | |\  | | | | | | | | |_| | | |_| || |
+|_| \_|\___|\__| |_| \_|_|_| |_|_| |_|\__, |  \___(_)_|
+  O b i - W a n   P r o j e c t s      __/ |           
+                                      |___/  
+
+A HTTP Proxy to filter keywords that might insult your intelligence :)
+
+Current status:
+  Binds to a port on localhost and recives messages via telnet on port 1337.
+  Prints messages recieved.
+
+
+To test:
+  Compile
+  Run
+  In a new terminal: telnet localhost 1337
+  All message sent from telnet will be printed from Obi-Wan and telnet will print "I got you message".
+  Close telnet with Ctrl + Alt-Gr + 8 (Ctrl + ]) and "close" or "quit".
+  Obi-Wan will exit..
+
+
+
+TODO:
+
+  Use freeaddrinfo() to free the result linked-list.
