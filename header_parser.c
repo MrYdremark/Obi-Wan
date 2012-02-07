@@ -27,7 +27,6 @@ struct ParsedHeader header_parser(char * input) {
     memcpy(header, input, strlen(input));
     to_lower(input, header, strlen(input));
     result_begin = (strstr(header, begin) + 6);
-    fprintf(stderr, "%s", result_begin);
     char * result_end = strchr(result_begin, end);
     result_end[0] = '\0';
     //char result[strlen(result_begin)] = result_begin;
