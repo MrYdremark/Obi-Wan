@@ -19,7 +19,7 @@
 int validate(char * input) {
   int status;
   regex_t regex;
-  regcomp(&regex, "spongebob|britney spears|norrköping|paris hilton",
+  regcomp(&regex, "spongebob|britney.?spears|norrk(o|ö)ping|paris.?hilton",
           REG_EXTENDED|REG_ICASE|REG_NOSUB);
   status = (regexec(&regex, input, (size_t) 0, NULL, 0));
   regfree(&regex);
