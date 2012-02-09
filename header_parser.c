@@ -56,12 +56,12 @@ struct ParsedHeader header_parser(char * input) {
     // Delete the Accept-Encoding part
     pBegin = NULL;
     pBegin = strstr(input, "Accept-Encoding:") + 17;
-    char * encoding = "*;q=0";
+    char * encoding = "none";
     if (pBegin)
     {
       pEnd = strchr(pBegin, end);
       strcpy(pBegin, encoding);
-      strcpy(pBegin+5, pEnd);
+      strcpy(pBegin+4, pEnd);
     }
     char * result_end = strchr(result_begin, end);
     result_end[0] = '\0';
@@ -81,6 +81,10 @@ int is_text(char * input) {
   int status;
   regex_t regex;
   regcomp(&regex, "content-type: text", REG_EXTENDED|REG_ICASE|REG_NOSUB);
+  status = regexec(&regex, input, (size_t) 0, NULL, 0);
+  if(status == 1)
+    return status;
+  regcomp(&regex, "content-encoding", REG_EXTENDED|REG_ICASE|REG_NOSUB);
   status = regexec(&regex, input, (size_t) 0, NULL, 0);
   regfree(&regex);
   return status;
