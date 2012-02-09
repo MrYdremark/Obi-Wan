@@ -1,3 +1,17 @@
+/**********************************************************************
+ *                              header_parser                         * 
+ * Getting header in form of string and checking for host name and    *
+ * puts it in a struct. It is also stripping the header of it's       *
+ * keep-alive.                                                        *
+ *                                                                    *
+ *                                 is_text                            *
+ * Also getting header in form of a string. Using a regex to check    *
+ * if it contains: Content-Type: text                                 *
+ *                                                                    *
+ *                                 to_lower                           *
+ * This part is self-explanatory.                                     *
+ **********************************************************************/
+
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
@@ -59,4 +73,13 @@ struct ParsedHeader header_parser(char * input) {
   h.host = result_begin;
   
   return h;
+}
+
+int is_text(char * input) {
+  int status;
+  regex_t regex;
+  char * low = malloc(strlen(input));
+  to_lower(input, low, strlen(input));
+  regcomp(&regex, "content-type: text", REG_EXTENDED|REG_ICASE|REG_NOSUB);
+  return(regexec(&regex, input, (size_t) 0, NULL, 0));
 }

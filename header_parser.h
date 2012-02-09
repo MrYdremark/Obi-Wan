@@ -9,5 +9,6 @@ struct ParsedHeader {
 
 void to_lower(char * in, char * out, int size);
 struct ParsedHeader header_parser(char * input);
+int is_text(char * input);
 
 #endif
