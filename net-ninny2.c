@@ -144,8 +144,8 @@ int main(int argc, char* argv[]) {
 	else {
 	  // We got data from a client
 	  struct ParsedHeader t;
-	  char * buffer = malloc(1);
 	  // Buffer the GET header from client
+	  char * buffer = malloc(1);
 	  int buffer_size = header_buffer(i, &buffer);
 	  if (buffer_size == -1)
 	    break;
@@ -154,10 +154,21 @@ int main(int argc, char* argv[]) {
 	  t = header_parser(buffer);
 	  sndfd = connect_to(t.host);
 	  fprintf(stderr, "Hostname: %s\n", t.host);
-	  // Send the header to the webserver
-	  if(send_to(sndfd, buffer, buffer_size) == -1)
-	    break;
+
 	  
+	  // Filter keywords from GET request
+	  if (validate(buffer) == -1) {
+	    char * redirect = "HTTP/1.1 302 Found\r\nLocation: http://www.ida.liu.se/~TDTS04/labs/2011/ass2/error1.html\r\nConnection: close\r\n\r\n";
+	    send_to(i, redirect, strlen(redirect));
+	    close(sndfd);
+	    close(i);
+	    FD_CLR(i, &master);
+	    break;
+	  }	    
+	  else { 
+	    if(send_to(sndfd, buffer, buffer_size) == -1)
+	      break;
+	  }
 	  //fprintf(stderr, "%s", t.header);
 
 	  
@@ -194,10 +205,8 @@ int main(int argc, char* argv[]) {
 	  
 		
 		// Content is ok. Lets send it
-		if(send_to(i, buffer, buffer_size) == -1) {
+		if(send_to(i, buffer, buffer_size) == -1)
 		  break;
-		  fprintf(stderr, "3");
-		}
 	      }
 	      else {
 	  
@@ -211,7 +220,7 @@ int main(int argc, char* argv[]) {
 
 	      // Header is ok and the content is not plain text. Send the data.
 	      if(send_to(i, buffer, buffer_size) == -1)
-		break;fprintf(stderr, "5");
+		break;
 	      char temp[1501];
 	      int temp_size;
 	      for (;;) {
@@ -236,6 +245,7 @@ int main(int argc, char* argv[]) {
 	  close(i);
 	  close(sndfd);
 	  FD_CLR(i, &master);
+	  break;
 	} // Closes data transfer
       } // Closes current connection
     } // Closes fd loop

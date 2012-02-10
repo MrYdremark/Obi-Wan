@@ -5,6 +5,7 @@ struct ParsedHeader {
   char * host;
   char * header;
   char * t_header;
+  int header_size;
 };
 
 void to_lower(char * in, char * out, int size);

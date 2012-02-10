@@ -73,6 +73,7 @@ struct ParsedHeader header_parser(char * input) {
   
   h.header = input;
   h.host = result_begin;
+  h.header_size = strlen(input);
   
   return h;
 }
@@ -82,10 +83,14 @@ int is_text(char * input) {
   regex_t regex;
   regcomp(&regex, "content-type: text", REG_EXTENDED|REG_ICASE|REG_NOSUB);
   status = regexec(&regex, input, (size_t) 0, NULL, 0);
+  regfree(&regex);
   if(status == 1)
-    return status;
+    return -1;
   regcomp(&regex, "content-encoding", REG_EXTENDED|REG_ICASE|REG_NOSUB);
   status = regexec(&regex, input, (size_t) 0, NULL, 0);
   regfree(&regex);
-  return status;
+  if (status == 1)
+    return 0;
+  else
+    return -1;
 }

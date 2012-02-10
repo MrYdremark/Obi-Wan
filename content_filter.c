@@ -23,5 +23,8 @@ int validate(char * input) {
           REG_EXTENDED|REG_ICASE|REG_NOSUB);
   status = (regexec(&regex, input, (size_t) 0, NULL, 0));
   regfree(&regex);
-  return status;
+  if (status == 0)
+    return -1;
+  else
+    return 0;
 }
