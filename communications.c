@@ -56,3 +56,15 @@ int content_buffer(char* buffer, int buffer_size) {
     }
   }
 }
+
+int connect_to(char * addr) {
+  struct addrinfo hints, &result;
+  
+  getaddrinfo(addr, "80", &hints, &result);
+  fd = socket(result->ai_family,
+              result->ai_socktype,
+              result->ai_protocol);
+  connect(fd, result->ai_addr, result->ai_addrlen);
+
+  return fd;
+}
